@@ -22,11 +22,7 @@ class NamedEnumSerializer<T : Enum<T>?>(values: Array<T>) : JsonSerializer<T>, J
       = if (json.isJsonNull()) null else values[json.getAsString()]
 
   override fun write(out: JsonWriter, value: T) {
-    if (value == null) {
-      out.nullValue()
-      return
-    }
-    out.value(value.name().toLowerCase())
+    if (value == null) out.nullValue() else out.value(value.name().toLowerCase())
   }
 
   override fun read(reader: JsonReader): T?
