@@ -44,16 +44,16 @@ data class Config {
     private set
   var timezone: TimeZone by Delegates.notNull()
     private set
-  var zigbeechannel: ZigBeeChannel by Delegates.notNull()
+  var zigbeechannel: Int by Delegates.notNull()
     private set
 
   data class SoftwareUpdate {
 
     var updatestate: State by Delegates.notNull()
       private set
-    var url: Uri by Delegates.notNull()
+    var url: Uri? = null
       private set
-    var text: String by Delegates.notNull()
+    var text: String? = null
       private set
     var notify: Boolean by Delegates.notNull()
       private set
@@ -73,5 +73,4 @@ data class Config {
 
   }
 
-  enum class ZigBeeChannel { UNDEFINED, C11, C15, C20, C25 }
 }

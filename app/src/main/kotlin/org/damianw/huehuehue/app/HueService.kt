@@ -3,14 +3,13 @@ package org.damianw.huehuehue.app
 import android.app.Service
 import android.content.Intent
 import android.graphics.PointF
+import android.net.Uri
 import android.os.Binder
 import android.os.Handler
 import android.provider.Settings
 import com.google.gson.GsonBuilder
-import org.damianw.huehuehue.api.gson.KotlinReflectiveTypeAdapterFactory
-import org.damianw.huehuehue.api.gson.LightListSerializer
-import org.damianw.huehuehue.api.gson.NamedEnumSerializer
-import org.damianw.huehuehue.api.gson.PointFSerializer
+import org.damianw.huehuehue.api.gson.*
+import org.damianw.huehuehue.api.model.Config
 import org.damianw.huehuehue.api.model.Light
 import org.damianw.huehuehue.api.net.ClipAdapter
 import org.damianw.huehuehue.util.d
@@ -20,7 +19,7 @@ import retrofit.RestAdapter
 import retrofit.client.OkClient
 import retrofit.converter.GsonConverter
 import rx.lang.kotlin.subscribeWith
-import java.util.Timer
+import java.util.*
 import kotlin.properties.Delegates
 
 /**
@@ -35,11 +34,15 @@ class HueService : Service() {
     val USERNAME = "3c86d652d4ea867c4a59311dbbd793" // TODO
     val GSON = GsonBuilder()
         .registerTypeAdapterFactory(KotlinReflectiveTypeAdapterFactory())
-        .registerTypeAdapter(javaClass<List<Light>>(), LightListSerializer())
         .registerTypeAdapter(javaClass<PointF>(), PointFSerializer())
+        .registerTypeAdapter(javaClass<Uri>(), UriSerializer())
+        .registerTypeAdapter(javaClass<TimeZone>(), TimeZoneSerializer())
+        .registerTypeAdapter(javaClass<List<Light>>(), LightListSerializer())
         .registerTypeAdapter(javaClass<Light.Alert>(), NamedEnumSerializer(Light.Alert.values()))
         .registerTypeAdapter(javaClass<Light.ColorMode>(), NamedEnumSerializer(Light.ColorMode.values()))
         .registerTypeAdapter(javaClass<Light.Effect>(), NamedEnumSerializer(Light.Effect.values()))
+        .registerTypeAdapter(javaClass<Config.SoftwareUpdate.State>(), IndexedEnumSerializer(Config.SoftwareUpdate.State.values()))
+        .setDateFormat("yyyy-MM-dd'T'hh:mm:ss")
         .create()
     val ADAPTER = RestAdapter.Builder()
         .setEndpoint("http://10.0.0.141") // TODO
