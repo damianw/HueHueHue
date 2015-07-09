@@ -10,6 +10,7 @@ import kotlin.properties.Delegates
  * (C) 2015 Damian Wieczorek
  */
 data class Config {
+
   var name: String by Delegates.notNull()
     private set
   var swupdate: SoftwareUpdate by Delegates.notNull()

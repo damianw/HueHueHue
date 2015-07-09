@@ -73,7 +73,7 @@ class KotlinReflectiveTypeAdapterFactory(
     }
 
     override fun writeProperty(value: Any?): Boolean
-        = if (!serialized) false else javaGetter(value) let { it != value }
+        = if (!serialized) false else javaGetter(value) != value
 
   }
 
