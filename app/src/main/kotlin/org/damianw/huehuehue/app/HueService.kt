@@ -72,7 +72,7 @@ class HueService : Service() {
   }
 
   fun checkConnected() {
-    API.getLights(USERNAME).subscribeWith {
+    API.getConfig(USERNAME).subscribeWith {
       onNext {
         d(it.toString())
       }

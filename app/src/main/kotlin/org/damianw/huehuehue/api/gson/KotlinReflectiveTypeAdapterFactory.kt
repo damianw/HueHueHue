@@ -34,14 +34,14 @@ class KotlinReflectiveTypeAdapterFactory(
   private fun getPropertyName(property: KProperty<*>) = property.name
 
   override fun <T> create(gson: Gson, type: TypeToken<T>): TypeAdapter<T>? {
-    val raw = type.getRawType() as Class<Any?>
-
-    if (!javaClass<Object>().isAssignableFrom(raw) || javaClass<String>().equals(raw)) {
-      return null // It's a primitive! (or a String...)
+    val raw = type.getRawType()
+    val name = raw.getName()
+    if (name.startsWith("java.") || name.startsWith("android.") || !javaClass<Object>().isAssignableFrom(raw)) {
+      return null // It's a primitive or Java/Android core class
     }
 
     val constructor = constructorConstructor[type]
-    return Adapter({ constructor.construct() }, getBoundProperties(gson, type, raw.kotlin))
+    return Adapter({ constructor.construct() }, getBoundProperties(gson, type, (raw as Class<Any?>).kotlin))
   }
 
   private fun createBoundProperty (
