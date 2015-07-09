@@ -1,6 +1,6 @@
 package org.damianw.huehuehue.api.model
 
-import java.util.*
+import android.graphics.PointF
 import kotlin.properties.Delegates
 
 /**
@@ -31,7 +31,7 @@ data class Light() {
       var bri: Byte = 0,
       var hue: Short = 0,
       var sat: Byte = 0,
-      var xy: Point = Point(0f, 0f),
+      var xy: PointF = PointF(0f, 0f),
       var ct: Short = 0,
       var alert: Alert = Alert.NONE,
       var effect: Effect = Effect.NONE,

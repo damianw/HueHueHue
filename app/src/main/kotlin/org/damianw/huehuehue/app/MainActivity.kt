@@ -2,6 +2,7 @@ package org.damianw.huehuehue.app
 
 import android.app.Activity
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
@@ -22,15 +23,7 @@ class MainActivity : Activity(), ServiceConnection {
 
   override fun onResume() {
     super<Activity>.onResume()
-    bindService(Intent(this, javaClass<HueService>()), this, 0)
-    HueService.API.getLights("foo") {
-      success { lights, response ->
-
-      }
-      failure {
-
-      }
-    }
+    bindService(Intent(this, javaClass<HueService>()), this, Context.BIND_AUTO_CREATE)
   }
 
   override fun onPause() {

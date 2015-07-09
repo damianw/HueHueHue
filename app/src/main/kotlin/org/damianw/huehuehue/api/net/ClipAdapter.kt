@@ -1,14 +1,14 @@
 package org.damianw.huehuehue.api.net
 
+import com.facebook.stetho.okhttp.StethoInterceptor
+import com.squareup.okhttp.OkHttpClient
 import org.damianw.huehuehue.api.model.Config
 import org.damianw.huehuehue.api.model.Light
-import org.damianw.huehuehue.util.RetrofitCallback
-import org.damianw.huehuehue.util.rfCallback
-import retrofit.Callback
 import retrofit.http.Body
 import retrofit.http.GET
 import retrofit.http.POST
 import retrofit.http.Path
+import rx.Observable
 
 /**
  * @author Damian Wieczorek {@literal <damian@farmlogs.com>}
@@ -19,16 +19,16 @@ public interface ClipAdapter {
 
   companion object {
     val USERNAME = "username"
+    val CLIENT = OkHttpClient()
+
+    init {
+      CLIENT.networkInterceptors().add(StethoInterceptor())
+    }
   }
 
-  GET("/api/{$USERNAME}") fun getUser(Path(USERNAME) username: String, callback: Callback<*>)
-  fun getUser(username: String, callback: RetrofitCallback<*>.() -> Unit) = getUser(username, rfCallback<Any?>(callback))
-
-  GET("/api/{$USERNAME}/lights") fun getLights(Path(USERNAME) username: String, callback: Callback<in List<Light>>)
-  fun getLights(username: String, callback: RetrofitCallback<in List<Light>>.() -> Unit) = getLights(username, rfCallback<List<Light>>(callback))
-
-  GET("/api/{$USERNAME}/config") fun getConfig(Path(USERNAME) username: String, callback: Callback<in Config>)
-  fun getConfig(username: String, callback: RetrofitCallback<in Config>.() -> Unit) = getConfig(username, rfCallback<Config>(callback))
+  GET("/api/{$USERNAME}") fun getUser(Path(USERNAME) username: String): Observable<Any?>
+  GET("/api/{$USERNAME}/lights") fun getLights(Path(USERNAME) username: String): Observable<List<Light>>
+  GET("/api/{$USERNAME}/config") fun getConfig(Path(USERNAME) username: String): Observable<Config>
 
   POST("/api") private fun createUser(Body createUser: CreateUser)
   fun createUser(devicetype: String) = createUser(CreateUser(devicetype))

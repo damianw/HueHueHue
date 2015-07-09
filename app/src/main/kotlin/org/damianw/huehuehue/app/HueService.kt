@@ -2,16 +2,26 @@ package org.damianw.huehuehue.app
 
 import android.app.Service
 import android.content.Intent
+import android.graphics.PointF
 import android.os.Binder
 import android.os.Handler
 import android.provider.Settings
+import com.google.gson.GsonBuilder
+import org.damianw.huehuehue.api.gson.KotlinReflectiveTypeAdapterFactory
+import org.damianw.huehuehue.api.gson.LightListSerializer
+import org.damianw.huehuehue.api.gson.NamedEnumSerializer
+import org.damianw.huehuehue.api.gson.PointFSerializer
 import org.damianw.huehuehue.api.model.Light
 import org.damianw.huehuehue.api.net.ClipAdapter
-import org.damianw.huehuehue.util.i
+import org.damianw.huehuehue.util.d
+import org.damianw.huehuehue.util.e
 import org.damianw.huehuehue.util.schedule
 import retrofit.RestAdapter
-import retrofit.RetrofitError
+import retrofit.client.OkClient
+import retrofit.converter.GsonConverter
+import rx.lang.kotlin.subscribeWith
 import java.util.Timer
+import kotlin.properties.Delegates
 
 /**
  * @author Damian Wieczorek {@literal <damian@farmlogs.com>}
@@ -22,13 +32,24 @@ class HueService : Service() {
 
   companion object {
     val REFRESH_PERIOD = 10000L
+    val USERNAME = "3c86d652d4ea867c4a59311dbbd793" // TODO
+    val GSON = GsonBuilder()
+        .registerTypeAdapterFactory(KotlinReflectiveTypeAdapterFactory())
+        .registerTypeAdapter(javaClass<List<Light>>(), LightListSerializer())
+        .registerTypeAdapter(javaClass<PointF>(), PointFSerializer())
+        .registerTypeAdapter(javaClass<Light.Alert>(), NamedEnumSerializer(Light.Alert.values()))
+        .registerTypeAdapter(javaClass<Light.ColorMode>(), NamedEnumSerializer(Light.ColorMode.values()))
+        .registerTypeAdapter(javaClass<Light.Effect>(), NamedEnumSerializer(Light.Effect.values()))
+        .create()
     val ADAPTER = RestAdapter.Builder()
-        .setEndpoint("10.1.10.141") // TODO
+        .setEndpoint("http://10.0.0.141") // TODO
+        .setConverter(GsonConverter(GSON))
+        .setClient(OkClient(ClipAdapter.CLIENT))
         .build()
     val API = ADAPTER.create(javaClass<ClipAdapter>())
   }
 
-  val deviceId: String by lazy {
+  val deviceId: String by Delegates.lazy {
     Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID)
   }
 
@@ -47,13 +68,15 @@ class HueService : Service() {
 
   override fun onDestroy() {
     super.onDestroy()
+    timer.cancel()
   }
 
   fun checkConnected() {
-    try {
-      i("User: ${API.get}")
-    } catch (e: RetrofitError) {
-
+    API.getLights(USERNAME).subscribeWith {
+      onNext {
+        d(it.toString())
+      }
+      onError { e("Error getting lights", it) }
     }
   }
 
