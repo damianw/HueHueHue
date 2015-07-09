@@ -42,9 +42,9 @@ class PointFSerializer : JsonSerializer<PointF>, JsonDeserializer<PointF>, TypeA
     return result
   }
 
-  override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): PointF?
-      = if (json.isJsonNull()) null else json.getAsJsonArray() let {
-    PointF(it.get(0).getAsFloat(), it.get(1).getAsFloat())
-  }
+  override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): PointF? =
+      if (json.isJsonNull()) null else json.getAsJsonArray() let {
+        PointF(it.get(0).getAsFloat(), it.get(1).getAsFloat())
+      }
 
 }
