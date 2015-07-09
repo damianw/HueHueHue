@@ -12,8 +12,13 @@ import java.lang.reflect.Type
  * (C) 2015 Damian Wieczorek
  */
 class LightListSerializer : JsonDeserializer<List<Light>> {
-  override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): List<Light>?
-    = json.getAsJsonObject().entrySet().map {
-    context.deserialize<Light>(it.value, javaClass<Light>())
-  }.toList()
+  override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): List<Light>? =
+      if (json.isJsonNull())
+        null
+      else
+        json.getAsJsonObject().entrySet().map {
+          val light = it.value.getAsJsonObject()
+          light.addProperty(Light::id.name, it.key)
+          context.deserialize<Light>(light, javaClass<Light>())
+        }.toList()
 }
