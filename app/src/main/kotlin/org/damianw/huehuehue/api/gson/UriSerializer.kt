@@ -12,7 +12,7 @@ import java.lang.reflect.Type
  * @since 7/9/15
  * (C) 2015 Damian Wieczorek
  */
-open class UriSerializer private constructor() : JsonSerializer<Uri>, JsonDeserializer<Uri>, TypeAdapter<Uri>() {
+open class UriSerializer protected constructor() : JsonSerializer<Uri>, JsonDeserializer<Uri>, TypeAdapter<Uri>() {
 
   companion object : UriSerializer()
 

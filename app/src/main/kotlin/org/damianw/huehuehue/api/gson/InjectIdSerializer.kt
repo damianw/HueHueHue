@@ -5,26 +5,26 @@ import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import org.damianw.huehuehue.api.model.Identifiable
 import java.lang.reflect.Type
-import kotlin.reflect.KClass
 
 /**
  * @author Damian Wieczorek {@literal <damian@farmlogs.com>}
  * @since 7/8/15
  * (C) 2015 Damian Wieczorek
  */
-class ObjectAsListSerializer<T : Identifiable>(val type: KClass<out T>) : JsonDeserializer<List<Identifiable>> {
+class InjectIdSerializer<T>(val type: Class<T>) : JsonDeserializer<List<T>> {
 
   private companion object {
-    val ID = Identifiable::id.name
+    val ID = "id"
   }
 
-  override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): List<Identifiable>? =
+  override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): List<T>? =
       if (json.isJsonNull())
         null
       else
         json.getAsJsonObject().entrySet().map {
           val item = it.value.getAsJsonObject()
-          item.addProperty(ID, it.key)
-          context.deserialize<Identifiable>(item, type)
-        }.toList()
+          val id = it.key.toInt()
+          item.addProperty(ID, id)
+          context.deserialize<T>(item, type)
+        }
 }

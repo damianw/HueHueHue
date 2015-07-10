@@ -8,10 +8,10 @@ import java.lang.reflect.Type
 
 /**
  * @author Damian Wieczorek {@literal <damian@farmlogs.com>}
- * @since 7/9/15
+ * @since 7/14/15
  * (C) 2015 Damian Wieczorek
  */
-class IndexedEnumSerializer<T : Enum<T>?>(val values: Array<T>) : JsonSerializer<T>, JsonDeserializer<T>, TypeAdapter<T>() {
+class CodedEnumSerializer<T : Enum<T>?>(val values: Map<Int, T>) : JsonSerializer<T>, JsonDeserializer<T>, TypeAdapter<T>() {
 
   override fun serialize(src: T, typeOfSrc: Type, context: JsonSerializationContext): JsonElement
       = if (src == null) JsonNull.INSTANCE else JsonPrimitive(src.ordinal())

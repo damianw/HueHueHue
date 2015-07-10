@@ -1,5 +1,6 @@
 package org.damianw.huehuehue.api.model
 
+import org.damianw.huehuehue.api.annotation.reflective
 import java.util.Date
 import kotlin.properties.Delegates
 
@@ -8,7 +9,7 @@ import kotlin.properties.Delegates
  * @since 7/8/15
  * (C) 2015 Damian Wieczorek
  */
-data class Scan {
+reflective data class Scan {
 
   var results: List<Result> by Delegates.notNull()
     private set

@@ -5,13 +5,13 @@ import com.google.gson.JsonSyntaxException
 import com.google.gson.TypeAdapter
 import com.google.gson.TypeAdapterFactory
 import com.google.gson.internal.ConstructorConstructor
-import com.google.gson.internal.ObjectConstructor
 import com.google.gson.internal.Primitives
 import com.google.gson.reflect.TypeToken
 import com.google.gson.stream
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonToken
 import com.google.gson.stream.JsonWriter
+import org.damianw.huehuehue.api.annotation.reflective
 import org.damianw.huehuehue.gson.GsonTypes
 import org.damianw.huehuehue.gson.TypeAdapterRuntimeTypeWrapper
 import kotlin.reflect.KClass
@@ -39,9 +39,8 @@ open class KotlinReflectiveTypeAdapterFactory(
   suppress("UNCHECKED_CAST")
   override fun <T> create(gson: Gson, type: TypeToken<T>): TypeAdapter<T>? {
     val raw = type.getRawType()
-    val name = raw.getName()
-    if (name.startsWith("java.") || name.startsWith("android.") || !javaClass<Object>().isAssignableFrom(raw)) {
-      return null // It's a primitive or Java/Android core class
+    if (!raw.isAnnotationPresent(javaClass<reflective>())) {
+      return null // do not attempt to serialize classes not marked as "reflective"
     }
 
     val constructor = constructorConstructor[type]

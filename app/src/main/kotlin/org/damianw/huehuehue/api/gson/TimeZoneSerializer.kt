@@ -12,7 +12,7 @@ import java.util.TimeZone
  * @since 7/9/15
  * (C) 2015 Damian Wieczorek
  */
-open class TimeZoneSerializer private constructor() : JsonSerializer<TimeZone>, JsonDeserializer<TimeZone>, TypeAdapter<TimeZone>() {
+open class TimeZoneSerializer protected constructor() : JsonSerializer<TimeZone>, JsonDeserializer<TimeZone>, TypeAdapter<TimeZone>() {
 
   companion object : TimeZoneSerializer()
 

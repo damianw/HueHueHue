@@ -1,26 +1,27 @@
 package org.damianw.huehuehue.api.model
 
 import android.graphics.PointF
+import org.damianw.huehuehue.api.annotation.reflective
 import org.damianw.huehuehue.util.notNull
+import kotlin.properties.Delegates
 
 /**
  * @author Damian Wieczorek {@literal <damian@farmlogs.com>}
  * @since 7/8/15
  * (C) 2015 Damian Wieczorek
  */
-data class Light : Identifiable {
+reflective data class Light {
 
-  var name: String by notNull()
-  var state: State by notNull()
-
-  override var id: String by notNull(); private set
+  var name: String by notNull(); private set
+  var state: Light.State by notNull(); private set
+  var id: Int by notNull(); private set
   var uniqueid: String by notNull(); private set
   var manufacturername: String by notNull(); private set
   var type: String by notNull(); private set
   var modelid: String by notNull(); private set
   var swversion: String by notNull(); private set
 
-  data class State(
+  reflective data class State(
       var on: Boolean = true,
       var bri: Byte = 0,
       var hue: Short = 0,
@@ -32,13 +33,6 @@ data class Light : Identifiable {
       var colormode: ColorMode? = null,
       var reachable: Boolean = true
   )
-
-  enum class Alert {
-    NONE,
-    SELECT,
-    LSELECT;
-    companion object : List<Alert> by values().asList()
-  }
 
   enum class Effect {
     NONE,

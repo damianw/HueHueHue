@@ -1,6 +1,7 @@
 package org.damianw.huehuehue.api.model
 
 import android.net.Uri
+import org.damianw.huehuehue.api.annotation.reflective
 import org.damianw.huehuehue.util.notNull
 import java.util.Date
 import java.util.TimeZone
@@ -10,7 +11,7 @@ import java.util.TimeZone
  * @since 7/8/15
  * (C) 2015 Damian Wieczorek
  */
-data class Config {
+reflective data class Config {
 
   var name: String by notNull(); private set
   var swupdate: SoftwareUpdate by notNull(); private set

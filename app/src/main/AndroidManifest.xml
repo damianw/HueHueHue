@@ -20,8 +20,6 @@
       </intent-filter>
     </activity>
 
-    <service android:name="org.damianw.huehuehue.app.HueService"/>
-
   </application>
 
 </manifest>
