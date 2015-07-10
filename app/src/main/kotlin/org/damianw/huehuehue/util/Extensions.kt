@@ -47,7 +47,7 @@ fun Any.i(msg: String, tr: Throwable) = Log.i(this.javaClass.getSimpleName(), ms
 * String
 */
 
-fun String.toCamelCase() : String = split('_').map { it.capitalize() }.join()
+fun String.toCamelCase() : String = toLowerCase().split('_').map { it.capitalize() }.join()
 
 fun CharSequence.toConstantCase() : String = Regex("([A-Z])").matchAll(this) let {
   it.map { slice(it.range).toString() }.join()
