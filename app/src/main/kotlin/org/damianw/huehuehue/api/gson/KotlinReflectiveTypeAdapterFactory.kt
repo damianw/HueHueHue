@@ -5,6 +5,7 @@ import com.google.gson.JsonSyntaxException
 import com.google.gson.TypeAdapter
 import com.google.gson.TypeAdapterFactory
 import com.google.gson.internal.ConstructorConstructor
+import com.google.gson.internal.ObjectConstructor
 import com.google.gson.internal.Primitives
 import com.google.gson.reflect.TypeToken
 import com.google.gson.stream
@@ -33,6 +34,7 @@ class KotlinReflectiveTypeAdapterFactory(
   // TODO
   private fun getPropertyName(property: KProperty<*>) = property.name
 
+  suppress("UNCHECKED_CAST")
   override fun <T> create(gson: Gson, type: TypeToken<T>): TypeAdapter<T>? {
     val raw = type.getRawType()
     val name = raw.getName()
@@ -44,6 +46,7 @@ class KotlinReflectiveTypeAdapterFactory(
     return Adapter({ constructor.construct() }, getBoundProperties(gson, type, (raw as Class<Any?>).kotlin))
   }
 
+  suppress("UNCHECKED_CAST")
   private fun createBoundProperty (
       context: Gson,
       property: KMutableProperty<*>,
@@ -78,6 +81,7 @@ class KotlinReflectiveTypeAdapterFactory(
   }
 
   // TODO: check JsonAdapter annotation
+  suppress("UNCHECKED_CAST")
   private fun getPropertyAdapter(
       gson: Gson,
       property: KMutableProperty<*>,
