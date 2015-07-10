@@ -5,6 +5,8 @@ import com.github.salomonbrys.kotson.registerTypeAdapter
 import com.google.gson.GsonBuilder
 import org.damianw.huehuehue.api.gson.IndexedEnumSerializer
 import org.damianw.huehuehue.api.gson.NamedEnumSerializer
+import org.damianw.huehuehue.api.gson.ObjectAsListSerializer
+import org.damianw.huehuehue.api.model.Identifiable
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
@@ -90,6 +92,9 @@ inline fun <reified T : Enum<T>> GsonBuilder.registerIndexedEnum(values: Collect
 inline fun <reified T : Enum<T>> GsonBuilder.registerNamedEnum(values: Collection<T>,
                                                                noinline toSerialName: String.() -> String)
     = registerTypeAdapter<T>(NamedEnumSerializer(values.toTypedArray(), toSerialName))
+
+inline fun <reified T : Identifiable> GsonBuilder.typeInListAsObject()
+    = registerTypeAdapter<List<T>>(ObjectAsListSerializer())
 
 /*
 * Context

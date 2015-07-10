@@ -7,8 +7,9 @@ import org.damianw.huehuehue.util.notNull
  * @since 7/9/15
  * (C) 2015 Damian Wieczorek
  */
-class Group {
+class Group : Identifiable {
 
+  override var id: String by notNull(); private set
   var name: String by notNull(); private set
   var lights: List<String> by notNull(); private set
   var action: Light.State by notNull(); private set

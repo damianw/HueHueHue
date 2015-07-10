@@ -7,6 +7,8 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
+import org.jetbrains.anko.intent
+import org.jetbrains.anko.intentFor
 
 /**
  * @author Damian Wieczorek {@literal <damian@farmlogs.com>}
@@ -23,7 +25,7 @@ class MainActivity : Activity(), ServiceConnection {
 
   override fun onResume() {
     super<Activity>.onResume()
-    bindService(Intent(this, javaClass<HueService>()), this, Context.BIND_AUTO_CREATE)
+    bindService(intentFor<HueService>(), this, Context.BIND_AUTO_CREATE)
   }
 
   override fun onPause() {

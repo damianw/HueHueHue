@@ -8,12 +8,12 @@ import org.damianw.huehuehue.util.notNull
  * @since 7/8/15
  * (C) 2015 Damian Wieczorek
  */
-data class Light() {
+data class Light : Identifiable {
 
   var name: String by notNull()
   var state: State by notNull()
 
-  var id: String by notNull(); private set
+  override var id: String by notNull(); private set
   var uniqueid: String by notNull(); private set
   var manufacturername: String by notNull(); private set
   var type: String by notNull(); private set
