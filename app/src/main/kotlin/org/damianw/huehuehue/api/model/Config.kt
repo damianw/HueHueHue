@@ -59,7 +59,13 @@ data class Config {
     var notify: Boolean by Delegates.notNull()
       private set
 
-    enum class State { NONE_AVAILABLE, DOWNLOADING, READY, INSTALLING }
+    enum class State {
+      NONE_AVAILABLE,
+      DOWNLOADING,
+      READY,
+      INSTALLING;
+      companion object : List<State> by values().asList()
+    }
 
   }
 

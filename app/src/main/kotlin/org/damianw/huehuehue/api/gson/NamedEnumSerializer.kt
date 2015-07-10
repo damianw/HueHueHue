@@ -13,6 +13,10 @@ import java.lang.reflect.Type
  */
 class NamedEnumSerializer<T : Enum<T>?>(values: Array<T>) : JsonSerializer<T>, JsonDeserializer<T>, TypeAdapter<T>() {
 
+  companion object {
+    fun <T : Enum<T>> invoke(values: Array<T>) = NamedEnumSerializer(values)
+  }
+
   private val values = values.toMap { it.name().toLowerCase() }
 
   override fun serialize(src: T, typeOfSrc: Type, context: JsonSerializationContext): JsonElement

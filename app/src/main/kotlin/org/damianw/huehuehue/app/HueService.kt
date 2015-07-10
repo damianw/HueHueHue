@@ -7,14 +7,14 @@ import android.net.Uri
 import android.os.Binder
 import android.os.Handler
 import android.provider.Settings
+import com.github.salomonbrys.kotson.registerTypeAdapter
+import com.github.salomonbrys.kotson.serializeHierarchy
 import com.google.gson.GsonBuilder
 import org.damianw.huehuehue.api.gson.*
 import org.damianw.huehuehue.api.model.Config
 import org.damianw.huehuehue.api.model.Light
 import org.damianw.huehuehue.api.net.ClipAdapter
-import org.damianw.huehuehue.util.d
-import org.damianw.huehuehue.util.e
-import org.damianw.huehuehue.util.schedule
+import org.damianw.huehuehue.util.*
 import retrofit.RestAdapter
 import retrofit.client.OkClient
 import retrofit.converter.GsonConverter
@@ -33,15 +33,15 @@ class HueService : Service() {
     val REFRESH_PERIOD = 10000L
     val USERNAME = "3c86d652d4ea867c4a59311dbbd793" // TODO
     val GSON = GsonBuilder()
-        .registerTypeAdapterFactory(KotlinReflectiveTypeAdapterFactory())
-        .registerTypeAdapter(javaClass<PointF>(), PointFSerializer())
-        .registerTypeAdapter(javaClass<Uri>(), UriSerializer())
-        .registerTypeAdapter(javaClass<TimeZone>(), TimeZoneSerializer())
-        .registerTypeAdapter(javaClass<List<Light>>(), LightListSerializer())
-        .registerTypeAdapter(javaClass<Light.Alert>(), NamedEnumSerializer(Light.Alert.values()))
-        .registerTypeAdapter(javaClass<Light.ColorMode>(), NamedEnumSerializer(Light.ColorMode.values()))
-        .registerTypeAdapter(javaClass<Light.Effect>(), NamedEnumSerializer(Light.Effect.values()))
-        .registerTypeAdapter(javaClass<Config.SoftwareUpdate.State>(), IndexedEnumSerializer(Config.SoftwareUpdate.State.values()))
+        .registerTypeAdapterFactory(KotlinReflectiveTypeAdapterFactory)
+        .registerTypeAdapter<PointF>(PointFSerializer)
+        .registerTypeAdapter<Uri>(UriSerializer)
+        .registerTypeAdapter<TimeZone>(TimeZoneSerializer)
+        .registerTypeAdapter<List<Light>>(LightListSerializer)
+        .registerIndexedEnum(Config.SoftwareUpdate.State)
+        .registerNamedEnum(Light.Alert)
+        .registerNamedEnum(Light.ColorMode)
+        .registerNamedEnum(Light.Effect)
         .setDateFormat("yyyy-MM-dd'T'hh:mm:ss")
         .create()
     val ADAPTER = RestAdapter.Builder()

@@ -12,7 +12,9 @@ import java.lang.reflect.Type
  * @since 7/8/15
  * (C) 2015 Damian Wieczorek
  */
-class PointFSerializer : JsonSerializer<PointF>, JsonDeserializer<PointF>, TypeAdapter<PointF>() {
+open class PointFSerializer private constructor() : JsonSerializer<PointF>, JsonDeserializer<PointF>, TypeAdapter<PointF>() {
+
+  companion object : PointFSerializer()
 
   override fun write(out: JsonWriter, value: PointF?) {
     if (value == null) {

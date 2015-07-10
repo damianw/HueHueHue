@@ -1,6 +1,10 @@
 package org.damianw.huehuehue.util
 
 import android.util.Log
+import com.github.salomonbrys.kotson.registerTypeAdapter
+import com.google.gson.GsonBuilder
+import org.damianw.huehuehue.api.gson.IndexedEnumSerializer
+import org.damianw.huehuehue.api.gson.NamedEnumSerializer
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
@@ -40,8 +44,13 @@ class RetrofitCallback<T> : Callback<T> {
   override fun failure(error: RetrofitError?) = onFailure?.invoke(error)
   private var onSuccess: ((T, Response?) -> Unit)? = null
   private var onFailure: ((RetrofitError?) -> Unit)? = null
-  fun success(onSuccess: (T, Response?) -> Unit) { this.onSuccess = onSuccess }
-  fun failure(onFailure: (RetrofitError?) -> Unit) { this.onFailure = onFailure }
+  fun success(onSuccess: (T, Response?) -> Unit) {
+    this.onSuccess = onSuccess
+  }
+
+  fun failure(onFailure: (RetrofitError?) -> Unit) {
+    this.onFailure = onFailure
+  }
 }
 
 fun <T> rfCallback(init: RetrofitCallback<T>.() -> Unit): RetrofitCallback<T> {
@@ -49,6 +58,16 @@ fun <T> rfCallback(init: RetrofitCallback<T>.() -> Unit): RetrofitCallback<T> {
   callback.init()
   return callback
 }
+
+/*
+* GSON
+*/
+
+inline fun <reified T : Enum<T>> GsonBuilder.registerIndexedEnum(values: Collection<T>)
+    = registerTypeAdapter<T>(IndexedEnumSerializer(values.toTypedArray()))
+
+inline fun <reified T : Enum<T>> GsonBuilder.registerNamedEnum(values: Collection<T>)
+    = registerTypeAdapter<T>(NamedEnumSerializer(values.toTypedArray()))
 
 /*
 * Context
@@ -60,7 +79,7 @@ fun <T> rfCallback(init: RetrofitCallback<T>.() -> Unit): RetrofitCallback<T> {
 * Timer
 */
 
-fun timerTask(task: () -> Unit) = object: TimerTask() {
+fun timerTask(task: () -> Unit) = object : TimerTask() {
   override fun run() = task()
 }
 

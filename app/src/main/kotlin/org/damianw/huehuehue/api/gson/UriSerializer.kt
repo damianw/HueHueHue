@@ -12,7 +12,9 @@ import java.lang.reflect.Type
  * @since 7/9/15
  * (C) 2015 Damian Wieczorek
  */
-class UriSerializer : JsonSerializer<Uri>, JsonDeserializer<Uri>, TypeAdapter<Uri>() {
+open class UriSerializer private constructor() : JsonSerializer<Uri>, JsonDeserializer<Uri>, TypeAdapter<Uri>() {
+
+  companion object : UriSerializer()
 
   override fun serialize(src: Uri?, typeOfSrc: Type, context: JsonSerializationContext): JsonElement?
       = if (src == null) JsonNull.INSTANCE else JsonPrimitive(src.toString())

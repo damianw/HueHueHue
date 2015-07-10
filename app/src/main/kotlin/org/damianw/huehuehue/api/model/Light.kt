@@ -26,7 +26,7 @@ data class Light() {
   var swversion: String by Delegates.notNull()
     private set
 
-  data class State (
+  data class State(
       var on: Boolean = true,
       var bri: Byte = 0,
       var hue: Short = 0,
@@ -39,8 +39,24 @@ data class Light() {
       var reachable: Boolean = true
   )
 
-  enum class Alert { NONE, SELECT, LSELECT }
-  enum class Effect { NONE, COLORLOOP }
-  enum class ColorMode { HS, XY, CT }
+  enum class Alert {
+    NONE,
+    SELECT,
+    LSELECT;
+    companion object : List<Alert> by values().asList()
+  }
+
+  enum class Effect {
+    NONE,
+    COLORLOOP;
+    companion object : List<Effect> by values().asList()
+  }
+
+  enum class ColorMode {
+    HS,
+    XY,
+    CT;
+    companion object : List<ColorMode> by values().asList()
+  }
 
 }

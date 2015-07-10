@@ -5,14 +5,16 @@ import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonToken
 import com.google.gson.stream.JsonWriter
 import java.lang.reflect.Type
-import java.util.*
+import java.util.TimeZone
 
 /**
  * @author Damian Wieczorek {@literal <damian@farmlogs.com>}
  * @since 7/9/15
  * (C) 2015 Damian Wieczorek
  */
-class TimeZoneSerializer : JsonSerializer<TimeZone>, JsonDeserializer<TimeZone>, TypeAdapter<TimeZone>() {
+open class TimeZoneSerializer private constructor() : JsonSerializer<TimeZone>, JsonDeserializer<TimeZone>, TypeAdapter<TimeZone>() {
+
+  companion object : TimeZoneSerializer()
 
   override fun serialize(src: TimeZone?, typeOfSrc: Type, context: JsonSerializationContext): JsonElement?
       = if (src == null) JsonNull.INSTANCE else JsonPrimitive(src.getDisplayName()) // TODO this is wrong

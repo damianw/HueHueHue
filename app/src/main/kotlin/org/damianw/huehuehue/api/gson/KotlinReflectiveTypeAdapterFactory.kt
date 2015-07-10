@@ -24,9 +24,11 @@ import kotlin.reflect.jvm.*
  * @since 7/8/15
  * (C) 2015 Damian Wieczorek
  */
-class KotlinReflectiveTypeAdapterFactory(
+open class KotlinReflectiveTypeAdapterFactory(
     val constructorConstructor: ConstructorConstructor = ConstructorConstructor(mapOf())
 ) : TypeAdapterFactory {
+
+  companion object : KotlinReflectiveTypeAdapterFactory()
 
   // TODO
   public fun excludeProperty(property: KProperty<*>, serialize: Boolean): Boolean = false

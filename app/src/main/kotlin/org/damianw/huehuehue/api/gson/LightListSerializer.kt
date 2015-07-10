@@ -11,7 +11,10 @@ import java.lang.reflect.Type
  * @since 7/8/15
  * (C) 2015 Damian Wieczorek
  */
-class LightListSerializer : JsonDeserializer<List<Light>> {
+open class LightListSerializer private constructor() : JsonDeserializer<List<Light>> {
+
+  companion object : LightListSerializer()
+
   override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): List<Light>? =
       if (json.isJsonNull())
         null
