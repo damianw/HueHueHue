@@ -1,7 +1,7 @@
 package org.damianw.huehuehue.api.model
 
 import android.graphics.PointF
-import kotlin.properties.Delegates
+import org.damianw.huehuehue.util.notNull
 
 /**
  * @author Damian Wieczorek {@literal <damian@farmlogs.com>}
@@ -10,21 +10,15 @@ import kotlin.properties.Delegates
  */
 data class Light() {
 
-  var name: String by Delegates.notNull()
-  var state: State by Delegates.notNull()
+  var name: String by notNull()
+  var state: State by notNull()
 
-  var id: String by Delegates.notNull()
-    private set
-  var uniqueid: String by Delegates.notNull()
-    private set
-  var manufacturername: String by Delegates.notNull()
-    private set
-  var type: String by Delegates.notNull()
-    private set
-  var modelid: String by Delegates.notNull()
-    private set
-  var swversion: String by Delegates.notNull()
-    private set
+  var id: String by notNull(); private set
+  var uniqueid: String by notNull(); private set
+  var manufacturername: String by notNull(); private set
+  var type: String by notNull(); private set
+  var modelid: String by notNull(); private set
+  var swversion: String by notNull(); private set
 
   data class State(
       var on: Boolean = true,

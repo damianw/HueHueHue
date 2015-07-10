@@ -8,10 +8,10 @@ import android.os.Binder
 import android.os.Handler
 import android.provider.Settings
 import com.github.salomonbrys.kotson.registerTypeAdapter
-import com.github.salomonbrys.kotson.serializeHierarchy
 import com.google.gson.GsonBuilder
 import org.damianw.huehuehue.api.gson.*
 import org.damianw.huehuehue.api.model.Config
+import org.damianw.huehuehue.api.model.Group
 import org.damianw.huehuehue.api.model.Light
 import org.damianw.huehuehue.api.net.ClipAdapter
 import org.damianw.huehuehue.util.*
@@ -19,7 +19,8 @@ import retrofit.RestAdapter
 import retrofit.client.OkClient
 import retrofit.converter.GsonConverter
 import rx.lang.kotlin.subscribeWith
-import java.util.*
+import java.util.TimeZone
+import java.util.Timer
 import kotlin.properties.Delegates
 
 /**
@@ -39,9 +40,10 @@ class HueService : Service() {
         .registerTypeAdapter<TimeZone>(TimeZoneSerializer)
         .registerTypeAdapter<List<Light>>(LightListSerializer)
         .registerIndexedEnum(Config.SoftwareUpdate.State)
-        .registerNamedEnum(Light.Alert)
-        .registerNamedEnum(Light.ColorMode)
-        .registerNamedEnum(Light.Effect)
+        .registerNamedEnum(Group.Type, String::toCamelCase)
+        .registerEnum(Light.Alert)
+        .registerEnum(Light.ColorMode)
+        .registerEnum(Light.Effect)
         .setDateFormat("yyyy-MM-dd'T'hh:mm:ss")
         .create()
     val ADAPTER = RestAdapter.Builder()

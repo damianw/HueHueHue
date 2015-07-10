@@ -11,12 +11,20 @@ import retrofit.client.Response
 import java.util.Date
 import java.util.Timer
 import java.util.TimerTask
+import kotlin.properties.Delegates
+import kotlin.text.Regex
 
 /**
  * @author Damian Wieczorek {@literal <damian@farmlogs.com>}
  * @since 7/8/15
  * (C) 2015 Damian Wieczorek
  */
+
+/*
+* General
+*/
+
+fun <T: Any> notNull() = Delegates.notNull<T>()
 
 /*
 * Logging
@@ -34,6 +42,16 @@ fun Any.e(msg: String, tr: Throwable) = Log.e(this.javaClass.getSimpleName(), ms
 
 fun Any.i(msg: String) = Log.i(this.javaClass.getSimpleName(), msg)
 fun Any.i(msg: String, tr: Throwable) = Log.i(this.javaClass.getSimpleName(), msg, tr)
+
+/*
+* String
+*/
+
+fun String.toCamelCase() : String = split('_').map { it.capitalize() }.join()
+
+fun CharSequence.toConstantCase() : String = Regex("([A-Z])").matchAll(this) let {
+  it.map { slice(it.range).toString() }.join()
+}
 
 /*
 * Retrofit
@@ -63,11 +81,15 @@ fun <T> rfCallback(init: RetrofitCallback<T>.() -> Unit): RetrofitCallback<T> {
 * GSON
 */
 
+inline fun <reified T : Enum<T>> GsonBuilder.registerEnum(values: Collection<T>)
+    = registerTypeAdapter<T>(NamedEnumSerializer(values.toTypedArray()))
+
 inline fun <reified T : Enum<T>> GsonBuilder.registerIndexedEnum(values: Collection<T>)
     = registerTypeAdapter<T>(IndexedEnumSerializer(values.toTypedArray()))
 
-inline fun <reified T : Enum<T>> GsonBuilder.registerNamedEnum(values: Collection<T>)
-    = registerTypeAdapter<T>(NamedEnumSerializer(values.toTypedArray()))
+inline fun <reified T : Enum<T>> GsonBuilder.registerNamedEnum(values: Collection<T>,
+                                                               noinline toSerialName: String.() -> String)
+    = registerTypeAdapter<T>(NamedEnumSerializer(values.toTypedArray(), toSerialName))
 
 /*
 * Context
