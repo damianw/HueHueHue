@@ -5,6 +5,7 @@ import com.google.gson.*
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonToken
 import com.google.gson.stream.JsonWriter
+import org.damianw.huehuehue.util.toUri
 import java.lang.reflect.Type
 
 /**
@@ -27,6 +28,6 @@ open class UriSerializer protected constructor() : JsonSerializer<Uri>, JsonDese
   }
 
   override fun read(reader: JsonReader): Uri?
-      = if (reader.peek() == JsonToken.NULL) null else Uri.parse(reader.nextString())
+      = if (reader.peek() == JsonToken.NULL) null else reader.nextString().toUri()
 
 }
