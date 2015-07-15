@@ -21,7 +21,7 @@ open class UriSerializer protected constructor() : JsonSerializer<Uri>, JsonDese
       = if (src == null) JsonNull.INSTANCE else JsonPrimitive(src.toString())
 
   override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): Uri?
-      = if (json.isJsonNull()) null else Uri.parse(json.getAsString())
+      = if (json.isJsonNull()) null else json.getAsString().toUri()
 
   override fun write(out: JsonWriter, value: Uri?) {
     if (value == null) out.nullValue() else out.value(value.toString())
