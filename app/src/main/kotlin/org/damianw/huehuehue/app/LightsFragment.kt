@@ -23,7 +23,6 @@ import kotlin.properties.Delegates
  * (C) 2015 Damian Wieczorek
  */
 class LightsFragment : LayoutFragment(R.layout.fragment_lights), SwipeRefreshLayout.OnRefreshListener {
-  val timer: Timer = Timer()
 
   var bridge: Bridge by Delegates.notNull()
 
@@ -46,11 +45,6 @@ class LightsFragment : LayoutFragment(R.layout.fragment_lights), SwipeRefreshLay
     super<LayoutFragment>.onResume()
     refreshLayout.refreshing = true
     onRefresh()
-  }
-
-  override fun onPause() {
-    super<LayoutFragment>.onPause()
-    timer.cancel()
   }
 
   override fun onRefresh() = bridge.lights.subscribe {

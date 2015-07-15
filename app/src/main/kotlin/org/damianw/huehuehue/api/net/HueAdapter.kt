@@ -36,7 +36,7 @@ public interface HueAdapter {
   GET("/api/{$USERNAME}/groups") fun getGroups(Path(USERNAME) username: String): Observable<List<Group>>
   GET("/api/{$USERNAME}/lights/{$ID}") fun getLight(Path(USERNAME) username: String, Path(ID) id: Int): Observable<Light>
   GET("/api/{$USERNAME}/groups/{$ID}") fun getGroup(Path(USERNAME) username: String, Path(ID) id: Int): Observable<Group>
-  
+
   PUT("/api/{$USERNAME}/groups/{$ID}") fun updateGroup(Path(USERNAME) username: String, Path(ID) id: String, Body group: Group)
   PUT("/api/{$USERNAME}/lights/{$ID}") fun setName(Path(USERNAME) username: String, Path(ID) id: Int, Body setName: SetName): Observable<List<Response>>
   PUT("/api/{$USERNAME}/lights/{$ID}/state") fun setState(Path(USERNAME) username: String, Path(ID) id: Int, Body state: Light.State): Observable<List<Response>>
