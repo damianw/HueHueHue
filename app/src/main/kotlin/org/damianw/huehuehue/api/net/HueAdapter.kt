@@ -7,6 +7,7 @@ import org.damianw.huehuehue.api.model.Config
 import org.damianw.huehuehue.api.model.Group
 import org.damianw.huehuehue.api.model.Light
 import org.damianw.huehuehue.api.model.response.Response
+import org.damianw.huehuehue.util.DEBUG
 import retrofit.http.*
 import rx.Observable
 
@@ -23,7 +24,9 @@ public interface HueAdapter {
     val CLIENT = OkHttpClient()
 
     init {
-      CLIENT.networkInterceptors().add(StethoInterceptor())
+      if (DEBUG) {
+        CLIENT.networkInterceptors().add(StethoInterceptor())
+      }
     }
   }
 

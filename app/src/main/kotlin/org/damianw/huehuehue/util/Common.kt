@@ -2,8 +2,7 @@ package org.damianw.huehuehue.util
 
 import android.os.Handler
 import android.os.Looper
-import kotlin.properties.Delegates
-import kotlin.properties.ReadWriteProperty
+import org.damianw.huehuehue.BuildConfig
 
 /**
  * @author Damian Wieczorek {@literal <damian@farmlogs.com>}
@@ -12,5 +11,7 @@ import kotlin.properties.ReadWriteProperty
  */
 
 val MAIN_HANDLER = Handler(Looper.getMainLooper())
+
+val DEBUG = BuildConfig.DEBUG
 
 fun Any?.mainThread(function: () -> Unit) = MAIN_HANDLER.post(function)
