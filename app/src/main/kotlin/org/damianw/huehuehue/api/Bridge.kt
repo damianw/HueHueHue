@@ -44,12 +44,13 @@ class Bridge(val username: String, val uri: Uri, val scheduler: Scheduler = Andr
         .create()
   }
 
-  private val api = RestAdapter.Builder()
-      .setEndpoint(uri.toString())
-      .setConverter(GsonConverter(GSON))
-      .setClient(OkClient(HueAdapter.CLIENT))
-      .build()
-      .create<HueAdapter>()
+  private val adapter = restAdapter(
+      endpoint = uri.toString(),
+      converter = GsonConverter(GSON),
+      client = OkClient(HueAdapter.CLIENT)
+  )
+
+  private val api = adapter.create<HueAdapter>()
 
   val config: Observable<Config> get() = api.getConfig(username).observeOn(scheduler)
   val lights: Observable<List<Light>> get() = api.getLights(username).observeOn(scheduler)
