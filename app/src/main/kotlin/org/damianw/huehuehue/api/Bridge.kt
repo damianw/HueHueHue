@@ -7,7 +7,7 @@ import org.damianw.huehuehue.api.gson.*
 import org.damianw.huehuehue.api.model.*
 import org.damianw.huehuehue.api.model.response.Response
 import org.damianw.huehuehue.api.model.response.Status
-import org.damianw.huehuehue.api.net.HueAdapter
+import org.damianw.huehuehue.api.net.HueApi
 import org.damianw.huehuehue.api.net.SetName
 import org.damianw.huehuehue.util.*
 import retrofit.RestAdapter
@@ -47,10 +47,10 @@ class Bridge(val username: String, val uri: Uri, val scheduler: Scheduler = Andr
   private val adapter = restAdapter(
       endpoint = uri.toString(),
       converter = GsonConverter(GSON),
-      client = OkClient(HueAdapter.CLIENT)
+      client = OkClient(HueApi.CLIENT)
   )
 
-  private val api = adapter.create<HueAdapter>()
+  private val api = adapter.create<HueApi>()
 
   val config: Observable<Config> get() = api.getConfig(username).observeOn(scheduler)
   val lights: Observable<List<Light>> get() = api.getLights(username).observeOn(scheduler)
