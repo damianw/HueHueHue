@@ -7,7 +7,7 @@ import org.damianw.huehuehue.api.gson.*
 import org.damianw.huehuehue.api.model.*
 import org.damianw.huehuehue.api.model.response.Response
 import org.damianw.huehuehue.api.model.response.Status
-import org.damianw.huehuehue.api.net.HueAdapter
+import org.damianw.huehuehue.api.net.HueApi
 import org.damianw.huehuehue.api.net.SetName
 import org.damianw.huehuehue.util.*
 import retrofit.RestAdapter
@@ -23,7 +23,7 @@ import java.util.TimeZone
  * @since 7/15/15
  * (C) 2015 Damian Wieczorek
  */
-class Bridge(val username: String, val uri: Uri, val scheduler: Scheduler = AndroidSchedulers.mainThread()) {
+class Bridge(api: HueApi? = null, val username: String, val uri: Uri, val scheduler: Scheduler = AndroidSchedulers.mainThread()) {
 
   companion object {
     val GSON = GsonBuilder()
@@ -44,12 +44,13 @@ class Bridge(val username: String, val uri: Uri, val scheduler: Scheduler = Andr
         .create()
   }
 
-  private val api = RestAdapter.Builder()
-      .setEndpoint(uri.toString())
-      .setConverter(GsonConverter(GSON))
-      .setClient(OkClient(HueAdapter.CLIENT))
-      .build()
-      .create<HueAdapter>()
+  private val adapter = restAdapter(
+      endpoint = uri.toString(),
+      converter = GsonConverter(GSON),
+      client = OkClient(HueApi.CLIENT)
+  )
+
+  private val api = api ?: adapter.create<HueApi>()
 
   val config: Observable<Config> get() = api.getConfig(username).observeOn(scheduler)
   val lights: Observable<List<Light>> get() = api.getLights(username).observeOn(scheduler)

@@ -16,7 +16,7 @@ import rx.Observable
  * @since 7/8/15
  * (C) 2015 Damian Wieczorek
  */
-public interface HueAdapter {
+public interface HueApi {
 
   companion object {
     val USERNAME = "username"

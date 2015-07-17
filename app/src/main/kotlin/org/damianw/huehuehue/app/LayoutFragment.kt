@@ -2,6 +2,7 @@ package org.damianw.huehuehue.app
 
 import android.app.Fragment
 import android.os.Bundle
+import android.support.annotation.LayoutRes
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,7 @@ import android.view.ViewGroup
  * @since 7/14/15
  * (C) 2015 Damian Wieczorek
  */
-open class LayoutFragment(val layoutId: Int) : Fragment() {
+open class LayoutFragment(LayoutRes val layoutId: Int) : Fragment() {
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     return inflater.inflate(layoutId, container, false)

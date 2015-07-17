@@ -23,5 +23,11 @@ var SwipeRefreshLayout.refreshing: Boolean
   get() = isRefreshing()
   set(refreshing) = setRefreshing(refreshing)
 
+var SwipeRefreshLayout.onRefreshListener: SwipeRefreshLayout.OnRefreshListener?
+  get() = null
+  set(listener) = setOnRefreshListener(listener)
+
 inline fun <reified T : View> construct(context: Context) =
     javaClass<T>().getDeclaredConstructor(javaClass<Context>()).newInstance(context)
+
+inline fun <reified T : View> constructor(context: Context) = { construct<T>(context) }
