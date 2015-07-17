@@ -12,6 +12,7 @@ import org.damianw.huehuehue.api.Bridge
 import org.damianw.huehuehue.api.model.Light
 import org.damianw.huehuehue.util.adapter
 import org.damianw.huehuehue.util.listAdapter
+import org.damianw.huehuehue.util.onRefreshListener
 import org.damianw.huehuehue.util.refreshing
 import org.jetbrains.anko.text
 import java.util.Timer
@@ -22,27 +23,20 @@ import kotlin.properties.Delegates
  * @since 7/13/15
  * (C) 2015 Damian Wieczorek
  */
-class LightsFragment : LayoutFragment(R.layout.fragment_lights), SwipeRefreshLayout.OnRefreshListener {
-
-  var bridge: Bridge by Delegates.notNull()
+class LightsFragment : BridgeFragment(R.layout.fragment_lights), SwipeRefreshLayout.OnRefreshListener {
 
   val adapter = listAdapter<View, Light>(R.layout.cell_light) {
     it.get<TextView>(R.id.lightName).text = name
     it.get<TextView>(R.id.lightId).text = id.toString()
   }
 
-  override fun onAttach(activity: Activity) {
-    super<LayoutFragment>.onAttach(activity)
-    bridge = (activity as BridgeProvider).bridge
-  }
-
   override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
     lightsView.adapter = adapter
-    refreshLayout.setOnRefreshListener(this)
+    refreshLayout.onRefreshListener = this
   }
 
   override fun onResume() {
-    super<LayoutFragment>.onResume()
+    super<BridgeFragment>.onResume()
     refreshLayout.refreshing = true
     onRefresh()
   }

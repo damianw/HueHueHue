@@ -12,14 +12,14 @@ import kotlin.properties.Delegates
  */
 reflective data class Light {
 
-  var name: String by notNull(); private set
-  var state: Light.State by notNull(); private set
-  var id: Int by notNull(); private set
-  var uniqueid: String by notNull(); private set
-  var manufacturername: String by notNull(); private set
-  var type: String by notNull(); private set
-  var modelid: String by notNull(); private set
-  var swversion: String by notNull(); private set
+  var name: String by notNull()
+  var state: Light.State by notNull()
+  var id: Int by notNull()
+  var uniqueid: String by notNull()
+  var manufacturername: String by notNull()
+  var type: String by notNull()
+  var modelid: String by notNull()
+  var swversion: String by notNull()
 
   reflective data class State(
       var on: Boolean = true,

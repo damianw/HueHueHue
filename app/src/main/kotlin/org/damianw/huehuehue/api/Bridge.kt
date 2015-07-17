@@ -23,7 +23,7 @@ import java.util.TimeZone
  * @since 7/15/15
  * (C) 2015 Damian Wieczorek
  */
-class Bridge(val username: String, val uri: Uri, val scheduler: Scheduler = AndroidSchedulers.mainThread()) {
+class Bridge(api: HueApi? = null, val username: String, val uri: Uri, val scheduler: Scheduler = AndroidSchedulers.mainThread()) {
 
   companion object {
     val GSON = GsonBuilder()
@@ -50,7 +50,7 @@ class Bridge(val username: String, val uri: Uri, val scheduler: Scheduler = Andr
       client = OkClient(HueApi.CLIENT)
   )
 
-  private val api = adapter.create<HueApi>()
+  private val api = api ?: adapter.create<HueApi>()
 
   val config: Observable<Config> get() = api.getConfig(username).observeOn(scheduler)
   val lights: Observable<List<Light>> get() = api.getLights(username).observeOn(scheduler)
