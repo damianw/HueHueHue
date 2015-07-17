@@ -10,10 +10,7 @@ import kotlinx.android.synthetic.fragment_lights.refreshLayout
 import org.damianw.huehuehue.R
 import org.damianw.huehuehue.api.Bridge
 import org.damianw.huehuehue.api.model.Light
-import org.damianw.huehuehue.util.adapter
-import org.damianw.huehuehue.util.listAdapter
-import org.damianw.huehuehue.util.onRefreshListener
-import org.damianw.huehuehue.util.refreshing
+import org.damianw.huehuehue.util.*
 import org.jetbrains.anko.text
 import java.util.Timer
 import kotlin.properties.Delegates
@@ -41,7 +38,7 @@ class LightsFragment : BridgeFragment(R.layout.fragment_lights), SwipeRefreshLay
     onRefresh()
   }
 
-  override fun onRefresh() = bridge.lights.subscribe {
+  override fun onRefresh() = bridge.lights.boundTo(this).subscribe {
     adapter.items = it
     refreshLayout.refreshing = false
   } let { Unit }
