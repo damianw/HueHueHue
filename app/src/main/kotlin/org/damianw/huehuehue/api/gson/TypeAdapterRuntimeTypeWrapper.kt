@@ -26,7 +26,7 @@ class TypeAdapterRuntimeTypeWrapper<T>(val gson: Gson, val delegate: TypeAdapter
     // Third preference: reflective type adapter for the runtime type (if it is a sub class of the declared type)
     // Fourth preference: reflective type adapter for the declared type
     val runtimeType = getRuntimeTypeIfMoreSpecific(type, value)
-    val chosen = if (runtimeType == type) delegate else gson.getAdapter(runtimeType.token()) as TypeAdapter<T> let {
+    val chosen = if (runtimeType == type) delegate else gson.getAdapter(runtimeType.token) as TypeAdapter<T> let {
       when {
         it !is KotlinReflectiveTypeAdapterFactory.Adapter -> it
         delegate !is KotlinReflectiveTypeAdapterFactory.Adapter -> delegate

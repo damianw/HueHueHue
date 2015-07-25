@@ -11,12 +11,4 @@ import java.lang.reflect.TypeVariable
  * (C) 2015 Damian Wieczorek
  */
 
-fun Type.token() = TypeToken.get(this)
-
-fun <T> Class<T>.token() = TypeToken.get(this)
-
-val <T : GenericDeclaration> TypeVariable<T>.genericDeclaration: GenericDeclaration
-  get() = getGenericDeclaration()
-
-val <T : GenericDeclaration> TypeVariable<T>.declaringClass: Class<*>?
-  get() = genericDeclaration as? Class<*>
+val Type.token: TypeToken<*> get() = TypeToken.get(this)
