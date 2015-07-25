@@ -29,5 +29,5 @@ inline fun <ItemT, reified ViewT : View> Fragment.listAdapter(
     inlineOptions(InlineOption.ONLY_LOCAL_RETURN) layoutParams: () -> RecyclerView.LayoutParams
 ) where ViewT : Bindable<in ItemT> =
     ListAdapter<ItemT>({ c, t ->
-      construct<ViewT>(act) and { it.layoutParams = layoutParams() }
+      construct<ViewT>(act) with { it.layoutParams = layoutParams() }
     }, { (it.itemView as ViewT).bind(this) })

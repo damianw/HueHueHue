@@ -16,4 +16,4 @@ val DEBUG = BuildConfig.DEBUG
 
 fun Any?.mainThread(function: () -> Unit) = MAIN_HANDLER.post(function)
 
-inline fun <T> T.and(then: (T) -> Unit) = then(this) let { this }
+inline fun <T> T.with(then: (T) -> Unit) = then(this) let { this }
