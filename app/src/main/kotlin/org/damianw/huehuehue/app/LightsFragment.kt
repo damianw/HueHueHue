@@ -3,14 +3,12 @@ package org.damianw.huehuehue.app
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.view.View
-import android.widget.TextView
 import kotlinx.android.synthetic.fragment_lights.lightsView
 import kotlinx.android.synthetic.fragment_lights.refreshLayout
 import org.damianw.huehuehue.R
 import org.damianw.huehuehue.api.model.Light
 import org.damianw.huehuehue.app.lights.LightCardView
 import org.damianw.huehuehue.util.*
-import org.jetbrains.anko.text
 
 /**
  * @author Damian Wieczorek {@literal <damian@farmlogs.com>}
@@ -19,7 +17,7 @@ import org.jetbrains.anko.text
  */
 class LightsFragment : BridgeFragment(R.layout.fragment_lights), SwipeRefreshLayout.OnRefreshListener {
 
-  val adapter = listAdapter<Light, LightCardView>()
+  val adapter = listAdapter<Light, LightCardView>(::verticalRecycler)
 
   override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
     lightsView.adapter = adapter

@@ -15,3 +15,5 @@ val MAIN_HANDLER = Handler(Looper.getMainLooper())
 val DEBUG = BuildConfig.DEBUG
 
 fun Any?.mainThread(function: () -> Unit) = MAIN_HANDLER.post(function)
+
+inline fun <T> T.and(then: (T) -> Unit) = then(this) let { this }

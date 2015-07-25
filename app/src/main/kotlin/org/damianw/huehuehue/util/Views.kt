@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.view.ViewGroup
 
 /**
  * @author Damian Wieczorek {@literal <damian@farmlogs.com>}
@@ -31,3 +32,8 @@ inline fun <reified T : View> construct(context: Context) =
     javaClass<T>().getDeclaredConstructor(javaClass<Context>()).newInstance(context)
 
 inline fun <reified T : View> constructor(context: Context) = { construct<T>(context) }
+
+fun verticalRecycler() = RecyclerView.LayoutParams(
+    ViewGroup.LayoutParams.MATCH_PARENT,
+    ViewGroup.LayoutParams.WRAP_CONTENT
+)
