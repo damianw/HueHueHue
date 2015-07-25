@@ -18,7 +18,7 @@ import org.jetbrains.anko.text
  */
 class GroupsFragment : BridgeFragment(R.layout.fragment_groups), SwipeRefreshLayout.OnRefreshListener {
 
-  val adapter = listAdapter<View, Group>(R.layout.cell_group) {
+  val adapter = listAdapter<Group, View>(R.layout.cell_group) {
     it.get<TextView>(R.id.groupName).text = name
     it.get<TextView>(R.id.groupId).text = id.toString()
   }

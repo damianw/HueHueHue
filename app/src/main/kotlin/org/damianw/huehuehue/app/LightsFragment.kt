@@ -1,6 +1,5 @@
 package org.damianw.huehuehue.app
 
-import android.app.Activity
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.view.View
@@ -8,12 +7,10 @@ import android.widget.TextView
 import kotlinx.android.synthetic.fragment_lights.lightsView
 import kotlinx.android.synthetic.fragment_lights.refreshLayout
 import org.damianw.huehuehue.R
-import org.damianw.huehuehue.api.Bridge
 import org.damianw.huehuehue.api.model.Light
+import org.damianw.huehuehue.app.lights.LightCardView
 import org.damianw.huehuehue.util.*
 import org.jetbrains.anko.text
-import java.util.Timer
-import kotlin.properties.Delegates
 
 /**
  * @author Damian Wieczorek {@literal <damian@farmlogs.com>}
@@ -22,10 +19,7 @@ import kotlin.properties.Delegates
  */
 class LightsFragment : BridgeFragment(R.layout.fragment_lights), SwipeRefreshLayout.OnRefreshListener {
 
-  val adapter = listAdapter<View, Light>(R.layout.cell_light) {
-    it.get<TextView>(R.id.lightName).text = name
-    it.get<TextView>(R.id.lightId).text = id.toString()
-  }
+  val adapter = listAdapter<Light, LightCardView>()
 
   override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
     lightsView.adapter = adapter
