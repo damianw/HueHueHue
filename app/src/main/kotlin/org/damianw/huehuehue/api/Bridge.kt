@@ -23,7 +23,7 @@ import java.util.TimeZone
  * @since 7/15/15
  * (C) 2015 Damian Wieczorek
  */
-class Bridge(api: HueApi? = null, val username: String, val uri: Uri, val scheduler: Scheduler = AndroidSchedulers.mainThread()) {
+class Bridge(val username: String, val uri: Uri, val scheduler: Scheduler = AndroidSchedulers.mainThread(), api: HueApi? = null) {
 
   companion object {
     val GSON = GsonBuilder()

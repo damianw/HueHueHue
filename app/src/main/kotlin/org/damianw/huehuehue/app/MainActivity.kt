@@ -17,7 +17,7 @@ import org.damianw.huehuehue.util.*
  */
 class MainActivity : AppCompatActivity(), BridgeProvider {
 
-  override val bridge: Bridge = Bridge(MockApi(), "3c86d652d4ea867c4a59311dbbd793", "http://10.0.0.141".toUri())
+  override val bridge: Bridge = Bridge("3c86d652d4ea867c4a59311dbbd793", "http://10.0.0.141".toUri())
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super<AppCompatActivity>.onCreate(savedInstanceState)
