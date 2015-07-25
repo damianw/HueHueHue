@@ -13,7 +13,6 @@ import com.google.gson.stream.JsonToken
 import com.google.gson.stream.JsonWriter
 import org.damianw.huehuehue.api.annotation.reflective
 import org.damianw.huehuehue.gson.GsonTypes
-import org.damianw.huehuehue.gson.TypeAdapterRuntimeTypeWrapper
 import kotlin.reflect.KClass
 import kotlin.reflect.KMutableProperty
 import kotlin.reflect.KProperty
