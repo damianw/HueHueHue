@@ -25,13 +25,14 @@ import org.jetbrains.anko.text
 class LightsFragment : BridgeFragment(R.layout.fragment_lights), SwipeRefreshLayout.OnRefreshListener {
 
   val adapter: ListAdapter<Light> = listAdapter<Light> {
-    bindableView<LightCardView> {
+    bindableView<LightCardView> {?
       layoutParams = RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
     onClick {
       alertDialog(ctx) {
+        titleResource = R.string.light_name
         val editText = EditText(ctx)
-        view(editText)
+        view = editText
         negativeButton(android.R.string.cancel)
         positiveButton(android.R.string.yes) {
           dismiss()

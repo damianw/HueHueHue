@@ -13,15 +13,17 @@ import android.view.View
  * (C) 2015 Damian Wieczorek
  */
 class AlertDialogBuilder(context: Context) {
-
   val builder = AlertDialog.Builder(context)
 
-  fun title(text: CharSequence) = builder.setTitle(text)
+  var title: CharSequence? = null
+    set(text) { builder.setTitle(text) }
+  var titleResource: Int = -1
+    set(textId) { builder.setTitle(textId) }
 
-  fun view(view: View) = builder.setView(view)
-  fun view(LayoutRes layoutId: Int) = builder.setView(layoutId)
-  fun viewWithSpacing(view: View, left: Int = 0, top: Int = 0, right: Int = 0, bottom: Int = 0) =
-      builder.setView(view, left, top, right, bottom)
+  var view: View? = null
+    set(view) { builder.setView(view) }
+  var layout: Int = -1
+    set(layoutId) { builder.setView(layoutId) }
 
   fun negativeButton(text: CharSequence, onClick: (DialogInterface.(Int) -> Unit)? = null) =
       builder.setNegativeButton(text, onClick)
