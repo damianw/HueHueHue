@@ -25,7 +25,7 @@ class LightCardView : CardView, Bindable<Light> {
   var lightName: TextView by notNull()
   var lightProgress: ProgressBar by notNull()
 
-  var inProgress: Boolean
+  var loading: Boolean
     get() = lightProgress.visibility == View.VISIBLE
     set(inProgress) = lightProgress.setVisibility(if (inProgress) View.VISIBLE else View.INVISIBLE)
 
@@ -48,6 +48,7 @@ class LightCardView : CardView, Bindable<Light> {
   }
 
   override fun bind(item: Light) {
+    loading = false
     lightId.text = item.id.toString()
     lightName.text = item.name
   }

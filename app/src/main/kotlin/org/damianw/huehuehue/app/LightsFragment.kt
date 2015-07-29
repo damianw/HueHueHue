@@ -37,9 +37,9 @@ class LightsFragment : BridgeFragment(R.layout.fragment_lights), SwipeRefreshLay
         negativeButton(android.R.string.cancel)
         positiveButton(android.R.string.yes) {
           dismiss()
-          card.inProgress = true
+          card.loading = true
           bridge.setName(this@onClick, editText.text).boundTo(this@LightsFragment).subscribe {
-            if (holder.item == this@onClick) card.inProgress = false
+            if (holder.item == this@onClick) card.loading = false
             refresh()
           }
         }
