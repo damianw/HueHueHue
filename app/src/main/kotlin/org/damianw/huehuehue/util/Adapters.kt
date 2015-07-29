@@ -1,8 +1,10 @@
 package org.damianw.huehuehue.util
 
 import android.app.Fragment
+import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.view.ViewGroup
 import org.damianw.huehuehue.app.common.Bindable
 import org.damianw.huehuehue.app.common.ListAdapter
 import org.damianw.huehuehue.app.common.ViewHolder
@@ -16,7 +18,44 @@ import org.jetbrains.anko.layoutParams
  * (C) 2015 Damian Wieczorek
  */
 
-inline fun <ItemT, reified ViewT : View> Fragment.listAdapter(
+class ListAdapterBuilder<T> {
+  var getView: (ViewGroup, Int) -> View = { viewGroup, type -> View(viewGroup.context )}
+  var onItemClick: T.(View) -> Unit = {}
+  var bind: T.(ViewHolder) -> Unit = {}
+
+  fun view(LayoutRes layoutId: Int) {
+    this.getView = { viewGroup, type -> viewGroup.context.layoutInflater.inflate(layoutId, viewGroup)}
+  }
+
+  inline fun view<reified ViewT: View>(noinline with: ViewT.() -> Unit = {}) {
+    this.getView = { viewGroup, type -> construct<ViewT>(viewGroup.context).with(with) }
+  }
+
+  inline fun bindableView<reified ViewT: View>(noinline with: ViewT.() -> Unit = {}) where ViewT: Bindable<in T> {
+    this.getView = { viewGroup, type -> construct<ViewT>(viewGroup.context).with(with) }
+    this.bind = { (it.itemView as Bindable<in T>).bind(this) }
+  }
+
+  fun view(getView: (ViewGroup, Int) -> View) {
+    this.getView = getView
+  }
+
+  fun onClick(onItemClick: T.(View) -> Unit) {
+    this.onItemClick = onItemClick
+  }
+
+  fun onBind(bind: T.(ViewHolder) -> Unit) {
+    this.bind = bind
+  }
+}
+
+fun <ItemT> Fragment.listAdapter(init: ListAdapterBuilder<ItemT>.() -> Unit): ListAdapter<ItemT> {
+  val builder = ListAdapterBuilder<ItemT>()
+  builder.init()
+  return ListAdapter(builder.getView, builder.bind, builder.onItemClick)
+}
+
+fun <ItemT> Fragment.listAdapter(
     layoutId: Int,
     noinline bind: ItemT.(ViewHolder) -> Unit
 ) = ListAdapter({ container, type -> act.layoutInflater.inflate(layoutId, container, false) }, bind)

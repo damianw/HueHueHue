@@ -12,6 +12,8 @@ import android.view.ViewGroup
  * (C) 2015 Damian Wieczorek
  */
 
+val View.context: Context get() = getContext()
+
 var RecyclerView.adapter: RecyclerView.Adapter<*>?
   get() = getAdapter()
   set(value: RecyclerView.Adapter<*>?) = setAdapter(value)

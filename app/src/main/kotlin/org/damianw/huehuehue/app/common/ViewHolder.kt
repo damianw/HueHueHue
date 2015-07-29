@@ -13,5 +13,6 @@ import org.jetbrains.anko.find
 suppress("UNCHECKED_CAST")
 class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
   val cache = sparseArray { itemView.find<View>(it) }
+  var item: Any? = null
   fun <T : View> get(id: Int) = cache[id] as T
 }
