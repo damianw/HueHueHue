@@ -29,6 +29,7 @@ class LightsFragment : BridgeFragment(R.layout.fragment_lights), SwipeRefreshLay
       layoutParams = RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
     onClick {
+      val card = it as LightCardView
       alertDialog(ctx) {
         titleResource = R.string.light_name
         val editText = EditText(ctx)
@@ -36,7 +37,9 @@ class LightsFragment : BridgeFragment(R.layout.fragment_lights), SwipeRefreshLay
         negativeButton(android.R.string.cancel)
         positiveButton(android.R.string.yes) {
           dismiss()
+          card.inProgress = true
           bridge.setName(this@onClick, editText.text).boundTo(this@LightsFragment).subscribe {
+            card.inProgress = false
             refresh()
           }
         }
