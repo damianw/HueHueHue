@@ -20,7 +20,7 @@ import org.jetbrains.anko.layoutParams
 
 class ListAdapterBuilder<T> {
   var getView: (ViewGroup, Int) -> View = { viewGroup, type -> View(viewGroup.context )}
-  var onItemClick: T.(View) -> Unit = {}
+  var onItemClick: T.(ViewHolder) -> Unit = {}
   var bind: T.(ViewHolder) -> Unit = {}
 
   fun view(LayoutRes layoutId: Int) {
@@ -40,7 +40,7 @@ class ListAdapterBuilder<T> {
     this.getView = getView
   }
 
-  fun onClick(onItemClick: T.(View) -> Unit) {
+  fun onClick(onItemClick: T.(ViewHolder) -> Unit) {
     this.onItemClick = onItemClick
   }
 

@@ -14,7 +14,7 @@ import org.jetbrains.anko.onClick
 class ListAdapter<T>(
     val newView: (ViewGroup, Int) -> View,
     val bind: T.(ViewHolder) -> Unit,
-    val onItemClick: T.(View) -> Unit = {},
+    val onItemClick: T.(ViewHolder) -> Unit = {},
     items: List<T> = listOf()
 ) : RecyclerView.Adapter<ViewHolder>() {
 
@@ -28,7 +28,7 @@ class ListAdapter<T>(
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder? {
     val view = newView(parent, viewType)
     val viewHolder = ViewHolder(view)
-    view.onClick { (viewHolder.item as T).onItemClick(view) }
+    view.onClick { (viewHolder.item as T).onItemClick(viewHolder) }
     return viewHolder
   }
 

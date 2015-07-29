@@ -28,8 +28,8 @@ class LightsFragment : BridgeFragment(R.layout.fragment_lights), SwipeRefreshLay
     bindableView<LightCardView> {
       layoutParams = RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
-    onClick {
-      val card = it as LightCardView
+    onClick { holder ->
+      val card = holder.itemView as LightCardView
       alertDialog(ctx) {
         titleResource = R.string.light_name
         val editText = EditText(ctx)
@@ -39,7 +39,7 @@ class LightsFragment : BridgeFragment(R.layout.fragment_lights), SwipeRefreshLay
           dismiss()
           card.inProgress = true
           bridge.setName(this@onClick, editText.text).boundTo(this@LightsFragment).subscribe {
-            card.inProgress = false
+            if (holder.item == this@onClick) card.inProgress = false
             refresh()
           }
         }
