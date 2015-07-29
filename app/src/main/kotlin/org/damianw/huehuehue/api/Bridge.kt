@@ -58,6 +58,6 @@ class Bridge(val username: String, val uri: Uri, val scheduler: Scheduler = Andr
   fun light(id: Int): Observable<Light> = api.getLight(username, id).observeOn(scheduler)
   fun group(id: Int): Observable<Group> = api.getGroup(username, id).observeOn(scheduler)
 
-  fun setName(light: Light, name: String) = api.setName(username, light.id, SetName(name)).observeOn(scheduler)
+  fun setName(light: Light, name: CharSequence) = api.setName(username, light.id, SetName(name.toString())).observeOn(scheduler)
 
 }
